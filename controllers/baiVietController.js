@@ -323,3 +323,29 @@ export async function danhSachBaiVietYeuThich(req, res) {
     throw new Error(`Lỗi lấy bài viết yêu thích ! \nChi tiết lỗi : ${error}`);
   }
 }
+export async function BaoCaoMatHang(req, res) {
+  try {
+    const matHang = await MatHang.findById(req.params.id)
+    if(matHang){
+      await MatHang.updateOne({_id: req.params.id}, {$inc: {baoCao: 1}});
+      if(matHang.baoCao > 3){
+        const thongBaoNguoiDung = new ThongBao({
+          idNguoiDung: matHang.idNguoiDung,
+          idTruyXuat: req.params.id,
+          loaiThongBao: "BaoCaoMatHang",
+          noiDung: `Mặt hàng ${matHang.tieuDe} cảu bạn đã bị khóa`,
+        })
+        await thongBaoNguoiDung.save();
+        res.send({
+          thongBao: `Mặt hàng ${matHang.tieuDe} đã bị khóa`
+        });
+      }
+      res.send({
+        thongBao: `Đã báo cáo mặt hàng ${matHang.tieuDe}`,
+        matHang: matHang,
+      });
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
