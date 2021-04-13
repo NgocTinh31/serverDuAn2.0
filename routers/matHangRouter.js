@@ -9,6 +9,7 @@ import {
   danhSachToiBan,
   timKiemTieuDe,
   timKiem,
+  BaoCaoMatHang,
 } from '../controllers/matHangController.js';
 
 const router = express.Router();
@@ -21,5 +22,6 @@ router.post('/chiTiet/:id', matHangChiTiet);
 router.post('/timKiemHangMuc/:tuKhoa', timKiemHangMuc);
 router.post('/danhSachToiBan/:id', danhSachToiBan)
 router.post('/timKiemTieuDe/:tieuDe', timKiemTieuDe);
+router.post('/baoCaoMatHang/:id', BaoCaoMatHang);
 router.post('/timKiem', timKiem);
 export default router;
